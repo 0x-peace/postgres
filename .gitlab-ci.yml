@@ -1,0 +1,12 @@
+---
+stages:
+  - test
+
+molecule:
+  stage: test
+  image: retr0h/molecule:2.19
+  tags:
+    - docker
+  script:
+    - sudo ansible-lint $(find . -regex ".*\.\(yml\)")
+    - sudo molecule test -s default

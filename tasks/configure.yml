@@ -1,0 +1,23 @@
+---
+- name: copy postgresql conf file
+  template:
+    src: postgresql.conf
+    dest: "{{ pg_conf }}"
+    owner: postgres
+    group: postgres
+    mode: 0644
+    backup: yes
+  notify:
+    - restart postgres
+    - change admin password
+
+- name: copy pg_hba conf file
+  template:
+    src: pg_hba.conf
+    dest: "{{ pg_conf }}"
+    owner: postgres
+    group: postgres
+    mode: 0644
+    backup: yes
+  notify:
+    - restart postgres

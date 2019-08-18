@@ -1,0 +1,50 @@
+---
+postgresql_version: "11"
+
+# postgresql_powa: "true"
+
+# APT settings
+postgresql_apt_key_id: "ACCC4CF8"
+postgresql_apt_key_url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+postgresql_apt_repository: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+
+# Configuration
+# postgresql_listen_ip: '{{ ansible_default_ipv4.address }}'
+postgresql_listen_ip: "0.0.0.0"
+postgresql_max_connections: "100"
+postgresql_shared_buffers: "512MB"
+postgresql_effective_cache_size: "1536MB"
+postgresql_work_mem: "5242kB"
+postgresql_maintenance_work_mem: "128MB"
+postgresql_min_wal_size: "1GB"
+postgresql_max_wal_size: "2GB"
+postgresql_checkpoint_completion_target: "0.7"
+postgresql_wal_buffers: "7864kB"
+postgresql_default_statistics_target: "100"
+postgresql_effective_io_concurrency: "2"
+postgresql_max_worker_processes: "2"
+
+# Access
+postgresql_admin_user: "postgres"
+postgresql_admin_pass: "{{ lookup('password', '/home/ikondratyev/clients/' + ansible_fqdn + '/' + 'postgres chars=ascii_letters,digits') }}"
+
+# Replication
+postgres_replication: false
+postgresql_slave_count: "{{ groups['postgres-slave'] | length }}"
+postgresql_replication_user: "replication"
+postgresql_replication_pass: "an9guPC7"
+
+# After install
+# if db if defined, playbook create new databases and users
+# db: true
+databases:
+  - name: inventory_db
+    user: inventory_user
+    pass: "{{ lookup('password', '/home/ikondratyev/clients/' + ansible_fqdn + '/' + 'pguser-pass chars=ascii_letters,digits') }}"
+
+# if dump_restore if difined, playbook will restore database (in file templates/dump.file)
+# Supported formats for dump and restore are: .sql and .tar
+# dump_restore: true
+dump:
+  - db: note_db
+    file: "note_db.sql"

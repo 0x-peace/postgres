@@ -1,0 +1,15 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: Install postgres
+  include_tasks: "install-{{ ansible_os_family }}.yml"
+
+- name: Configuring database
+  import_tasks: configure.yml
+
+- name: Copy scripts
+  import_tasks: scripts.yml
+
+- name: Create users and databases
+  import_tasks: after_install.yml

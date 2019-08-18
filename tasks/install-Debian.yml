@@ -1,0 +1,44 @@
+---
+- name: Make sure the CA certificates are available
+  apt:
+    name: ca-certificates
+    state: present
+    update_cache: yes
+
+- name: Add PostgreSQL repository apt-key
+  apt_key:
+    id: "{{ postgresql_apt_key_id }}"
+    url: "{{ postgresql_apt_key_url }}"
+    state: present
+
+- name: Add PostgreSQL repository
+  apt_repository:
+    repo: "{{ postgresql_apt_repository }}"
+    state: present
+
+- name: Install packages PostgreSQL
+  apt:
+    name:
+      - postgresql-{{ postgresql_version }}
+    state: present
+    update_cache: yes
+
+- name: Install packages for powa work
+  apt:
+    name:
+      - postgresql-{{ postgresql_version }}-powa
+      - postgresql-{{ postgresql_version }}-hypopg
+      - postgresql-{{ postgresql_version }}-pg-qualstats
+      - postgresql-{{ postgresql_version }}-pg-stat-kcache
+    state: present
+    update_cache: yes
+  when: postgresql_powa is defined
+
+- name: Make sure the dependencies are installed
+  apt:
+    name:
+      - python-psycopg2
+      - python-pycurl
+      - locales
+    state: present
+    update_cache: yes

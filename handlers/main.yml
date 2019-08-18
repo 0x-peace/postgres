@@ -1,0 +1,22 @@
+---
+- name: restart postgres
+  systemd:
+    name: "{{ pg_daemon }}"
+    state: restarted
+    enabled: yes
+
+- name: reload postgres
+  systemd:
+    name: "{{ pg_daemon }}"
+    state: restarted
+
+- name: change admin password
+  postgresql_user:
+    name: "{{ postgresql_admin_user }}"
+    password: "{{ postgresql_admin_pass }}"
+    encrypted: yes
+  become: true
+  become_user: "{{ postgresql_admin_user }}"
+
+- name: postgres initialize
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql-{{ pg_ver }}-setup initdb"

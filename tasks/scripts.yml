@@ -1,0 +1,31 @@
+---
+- name: Create postgres scripts directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ pg_data }}/scripts"
+    - "{{ pg_data }}/backup"
+
+- name: Copy backup script
+  template:
+    src: pg-dump.py
+    dest: "{{ pg_data }}/scripts"
+    mode: +x
+
+- name: Add backup job to crontab
+  cron:
+    name: postgres backup
+    minute: 0
+    hour: 23
+    job: "/usr/bin/python {{ pg_data }}/scripts/pg-dump.py"
+
+- name: Copy replication scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ pg_data }}/scripts"
+    mode: +x
+  with_items:
+    - replica-stats.sh
+    - replica-tail-wal.sh
+  when: postgres_replication is defined

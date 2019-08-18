@@ -1,0 +1,30 @@
+---
+# convert 9.6 to 96
+- name: Set postgres version
+  set_fact:
+    pg_ver: "{{ postgresql_version.split('.') | join('') }}"
+
+- name: Install postgres repository
+  yum:
+    name: "{{ pg_repo_package }}"
+    state: present
+
+- name: Install packages
+  yum:
+    name:
+      - "postgresql{{ pg_ver }}"
+      - "postgresql{{ pg_ver }}-server"
+    state: present
+    update_cache: yes
+  notify:
+    - postgres initialize
+
+- meta: flush_handlers
+
+- name: Install depended packages
+  yum:
+    name:
+      - python-psycopg2
+      - python-pycurl
+      - crontabs
+    state: present
