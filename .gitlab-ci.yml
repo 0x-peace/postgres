@@ -5,6 +5,8 @@ stages:
 molecule:
   stage: test
   image: retr0h/molecule:2.19
+  only:
+    - merge_requests
   tags:
     - docker
   script:
