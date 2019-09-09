@@ -1,4 +1,5 @@
 ---
+pg_daemon: "postgresql@{{ postgresql_version }}-main.service"
 pg_service: "postgresql"
 
 pg_data: "/var/lib/postgresql/{{ postgresql_version }}/main"
