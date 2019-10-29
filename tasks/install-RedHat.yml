@@ -9,6 +9,14 @@
     name: "{{ pg_repo_package }}"
     state: present
 
+- name: Install depended packages
+  yum:
+    name:
+      - python-psycopg2
+      - python-pycurl
+      - crontabs
+    state: present
+
 - name: Install packages
   yum:
     name:
@@ -18,13 +26,11 @@
     update_cache: yes
   notify:
     - postgres initialize
+    - change admin password
 
 - meta: flush_handlers
 
-- name: Install depended packages
-  yum:
-    name:
-      - python-psycopg2
-      - python-pycurl
-      - crontabs
-    state: present
+- name: Change permission to tmp files
+  file:
+    path: /var/tmp/
+    mode: "0775"

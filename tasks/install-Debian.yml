@@ -22,6 +22,8 @@
       - postgresql-{{ postgresql_version }}
     state: present
     update_cache: yes
+  notify:
+    - change admin password
 
 - name: Install packages for powa work
   apt:
