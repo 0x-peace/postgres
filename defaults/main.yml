@@ -37,14 +37,14 @@ postgresql_replication_pass: "an9guPC7"
 # After install
 # if db if defined, playbook create new databases and users
 # db: true
-databases:
-  - name: inventory_db
-    user: inventory_user
-    pass: "{{ lookup('password', '/home/ikondratyev/clients/' + ansible_fqdn + '/' + 'pguser-pass chars=ascii_letters,digits') }}"
+# databases:
+#  - name: inventory_db
+#    user: inventory_user
+#    pass: "{{ lookup('password', '/home/ikondratyev/clients/' + ansible_fqdn + '/' + 'pguser-pass chars=ascii_letters,digits') }}"
 
 # if dump_restore if difined, playbook will restore database (in file templates/dump.file)
 # Supported formats for dump and restore are: .sql and .tar
 # dump_restore: true
-dump:
-  - db: note_db
-    file: "note_db.sql"
+# dump:
+#  - db: note_db
+#    file: "note_db.sql"

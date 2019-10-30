@@ -23,6 +23,7 @@
     state: present
     update_cache: yes
   notify:
+    - restart postgres
     - change admin password
 
 - name: Install packages for powa work
