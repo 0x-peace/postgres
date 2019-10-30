@@ -9,6 +9,14 @@
     name: "{{ pg_repo_package }}"
     state: present
 
+- name: Install depended packages
+  yum:
+    name:
+      - python-psycopg2
+      - python-pycurl
+      - crontabs
+    state: present
+
 - name: Install packages
   yum:
     name:
@@ -17,14 +25,14 @@
     state: present
     update_cache: yes
   notify:
-    - postgres initialize
+    - restart postgres
+    - change admin password
 
-- meta: flush_handlers
+- name: check configuration file
+  stat:
+    path: /var/lib/pgsql/11/data/pg_wal
+  register: config_file
 
-- name: Install depended packages
-  yum:
-    name:
-      - python-psycopg2
-      - python-pycurl
-      - crontabs
-    state: present
+- name: Initialize postgres database
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql-{{ pg_ver }}-setup initdb"
+  when: not config_file.stat.exists

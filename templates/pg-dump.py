@@ -27,11 +27,15 @@ def create_backup():
 
     for db in databases:
 	if db not in system_db:
+            db_backup_dir = "{}/{}".format(backup_dir, db)
+            if not os.path.exists(db_backup_dir):
+                os.mkdir(db_backup_dir)
+
 	    com = "PGPASSWORD='{0}' pg_dump -h {1} -U {2} {3} -F c -Z 9 > {4}/{5}-{6}.sql".format(
-                pgsql_pass, pgsql_host, pgsql_user, db, backup_dir, db, datetime.now().date()
+                pgsql_pass, pgsql_host, pgsql_user, db, db_backup_dir, db, datetime.now().date()
             )
 	    subprocess.call(com, shell=True)
-	   
+
 
 if __name__ == "__main__":
     create_backup()
