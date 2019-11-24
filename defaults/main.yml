@@ -32,7 +32,7 @@ postgresql_admin_pass: "{{ lookup('password', '/home/ikondratyev/clients/' + ans
 postgres_replication: false
 postgresql_slave_count: "{{ groups['postgres-slave'] | length }}"
 postgresql_replication_user: "replication"
-postgresql_replication_pass: "an9guPC7"
+postgresql_replication_pass: "replication"
 
 # After install
 # if db if defined, playbook create new databases and users
