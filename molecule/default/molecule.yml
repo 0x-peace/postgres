@@ -1,45 +1,44 @@
 ---
 dependency:
   name: galaxy
+
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: virtualbox
+
 lint:
   name: yamllint
+
 platforms:
-  - name: ubuntu18.04
-    image: solita/ubuntu-systemd:18.04
-    privileged: True
-    security_opts:
-      - seccomp=unconfined
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    tmpfs:
-      - /tmp
-      - /run
-    capabilities:
-      - SYS_ADMIN
-    groups:
-      - debian_family
-    command: /sbin/init
-  - name: centos-7
-    image: solita/centos-systemd:7
-    privileged: True
-    security_opts:
-      - seccomp=unconfined
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    tmpfs:
-      - /tmp
-      - /run
-    capabilities:
-      - SYS_ADMIN
-    groups:
-      - rhel_family
-    command: /sbin/init
+  - name: instance-centos
+    box: centos/7
+    memory: 1536
+    cpus: 2
+    provider_raw_config_args:
+      - "customize [ 'modifyvm', :id, '--nictype1', 'virtio' ]"
+      - "customize [ 'modifyvm', :id, '--nictype2', 'virtio' ]"
+      - "customize [ 'modifyvm', :id, '--natdnshostresolver1', 'on' ]"
+      - "customize [ 'modifyvm', :id, '--natdnsproxy1', 'on' ]"
+      - "customize [ 'modifyvm', :id, '--ioapic', 'on' ]"
+
+  - name: instance-ubuntu
+    box: ubuntu/xenial64
+    memory: 1536
+    cpus: 2
+    provider_raw_config_args:
+      - "customize [ 'modifyvm', :id, '--nictype1', 'virtio' ]"
+      - "customize [ 'modifyvm', :id, '--nictype2', 'virtio' ]"
+      - "customize [ 'modifyvm', :id, '--natdnshostresolver1', 'on' ]"
+      - "customize [ 'modifyvm', :id, '--natdnsproxy1', 'on' ]"
+      - "customize [ 'modifyvm', :id, '--ioapic', 'on' ]"
+
+
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+
 verifier:
   name: testinfra
   lint:

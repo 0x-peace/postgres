@@ -8,7 +8,7 @@ molecule:
   only:
     - merge_requests
   tags:
-    - docker
+    - vagrant
   script:
-    - sudo ansible-lint $(find . -regex ".*\.\(yml\)")
-    - sudo molecule test -s default
+    - ansible-lint $(find . -regex ".*\.\(yml\)")
+    - molecule test -s default
