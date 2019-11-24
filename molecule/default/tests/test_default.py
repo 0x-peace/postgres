@@ -12,3 +12,9 @@ def test_hosts_file(host):
     assert f.exists
     assert f.user == 'root'
     assert f.group == 'root'
+
+
+def test_up_and_running(host):
+    docker = host.service('docker')
+    assert docker.is_running
+    assert docker.is_enabled
