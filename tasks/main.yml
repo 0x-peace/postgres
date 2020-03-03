@@ -13,3 +13,6 @@
 
 - name: Create users and databases
   import_tasks: after_install.yml
+
+- name: flush handlers
+  meta: flush_handlers
