@@ -16,8 +16,8 @@
 - name: Add backup job to crontab
   cron:
     name: postgres backup
-    minute: 0
-    hour: 23
+    minute: '0'
+    hour: '23'
     job: "/usr/bin/python {{ pg_data }}/scripts/pg-dump.py"
 
 - name: Copy replication scripts
