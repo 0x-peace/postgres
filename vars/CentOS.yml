@@ -8,7 +8,9 @@ pg_daemon: "postgresql-{{ postgresql_version }}"
 
 pg_dir: "/var/lib/pgsql"
 
-pg_repo_prefix: "https://download.postgresql.org/pub/repos/yum/{{ postgresql_version }}/redhat/rhel-7-x86_64"
-pg_repo_package: "{{ pg_repo_prefix }}/pgdg-centos{{ pg_ver }}-{{ postgresql_version }}-2.noarch.rpm"
+pg_repo_prefix: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64"
+pg_repo_package: "{{ pg_repo_prefix }}/pgdg-redhat-repo-latest.noarch.rpm"
+
+pg_stats_temp_directory: '/var/lib/pgsql/9.5/data/'
 
 # yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm

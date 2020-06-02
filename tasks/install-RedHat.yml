@@ -4,6 +4,10 @@
   set_fact:
     pg_ver: "{{ postgresql_version.split('.') | join('') }}"
 
+- name: print
+  debug:
+    msg: "{{ pg_repo_package }}"
+
 - name: Install postgres repository
   yum:
     name: "{{ pg_repo_package }}"
@@ -30,9 +34,9 @@
 
 - name: check configuration file
   stat:
-    path: /var/lib/pgsql/11/data/pg_wal
+    path: "/var/lib/pgsql/{{ postgresql_version }}/data/PG_VERSION"
   register: config_file
 
 - name: Initialize postgres database
-  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql-{{ pg_ver }}-setup initdb"
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ pg_ver }}-setup initdb"
   when: not config_file.stat.exists
