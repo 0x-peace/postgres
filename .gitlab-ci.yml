@@ -4,11 +4,10 @@ stages:
 
 molecule:
   stage: test
-  image: retr0h/molecule:2.19
   only:
     - merge_requests
   tags:
-    - docker
+    - vagrant
   script:
-    - sudo ansible-lint $(find . -regex ".*\.\(yml\)")
+    - ansible-lint $(find . -regex ".*\.\(yml\)")
     - sudo molecule test -s default
