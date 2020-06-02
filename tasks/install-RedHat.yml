@@ -4,6 +4,10 @@
   set_fact:
     pg_ver: "{{ postgresql_version.split('.') | join('') }}"
 
+- name: print
+  debug:
+    msg: "{{ pg_repo_package }}"
+
 - name: Install postgres repository
   yum:
     name: "{{ pg_repo_package }}"

@@ -19,4 +19,4 @@
   become_user: "{{ postgresql_admin_user }}"
 
 - name: postgres initialize
-  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql-{{ pg_ver }}-setup initdb"
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ pg_ver }}-setup initdb"
