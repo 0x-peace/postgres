@@ -6,7 +6,7 @@ molecule:
   stage: test
   only:
     - branches
-    - merge_requests
+    # - merge_requests
   tags:
     - vagrant
   script:
