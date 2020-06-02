@@ -34,7 +34,7 @@
 
 - name: check configuration file
   stat:
-    path: /var/lib/pgsql/11/data/pg_wal
+    path: "/var/lib/pgsql/{{ postgresql_version }}/data/PG_VERSION"
   register: config_file
 
 - name: Initialize postgres database
