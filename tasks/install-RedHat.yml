@@ -38,5 +38,5 @@
   register: config_file
 
 - name: Initialize postgres database
-  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql-{{ pg_ver }}-setup initdb"
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ pg_ver }}-setup initdb"
   when: not config_file.stat.exists
